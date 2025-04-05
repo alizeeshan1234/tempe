@@ -17,27 +17,44 @@ umi.use(signerIdentity(signer));
         // Follow this JSON structure
         // https://docs.metaplex.com/programs/token-metadata/changelog/v1.0#json-structure
 
-        // const image = ???
-        // const metadata = {
-        //     name: "?",
-        //     symbol: "?",
-        //     description: "?",
-        //     image: "?",
-        //     attributes: [
-        //         {trait_type: '?', value: '?'}
-        //     ],
-        //     properties: {
-        //         files: [
-        //             {
-        //                 type: "image/png",
-        //                 uri: "?"
-        //             },
-        //         ]
-        //     },
-        //     creators: []
-        // };
-        // const myUri = ???
-        // console.log("Your metadata URI: ", myUri);
+        const image = "https://devnet.irys.xyz/Fo8VaGFAxucbBzJzP6J3TV6hRMT22aFvaMBhbpNZ7xYs";
+
+        const metadata = {
+          name: "Solan",
+          symbol: "@#$", // This is optional, keep if relevant
+          description: "It's my first Solana NFT!",
+          image: image,
+          attributes: [
+            {
+              trait_type: "Special",
+              value: "First Mint"
+            }
+          ],
+          properties: {
+            files: [
+              {
+                uri: image,
+                type: "image/png"
+              }
+            ],
+            category: "image",
+            creators: [
+              {
+                address: "C4CvAsd3g3TT2vSEjYGCaVzq2kyXd7nsjjK2JU7MUDvp",  // Replace with your actual wallet address
+                share: 100
+              }
+            ]
+          }
+        };
+        
+        const metadataFile = createGenericFile(
+            Buffer.from(JSON.stringify(metadata)),
+            "metadata.json"
+          );
+      
+          // Upload JSON metadata and get URI
+          const [uri] = await umi.uploader.uploadJson([metadataFile]);
+        console.log("Your metadata URI: ", uri);
     }
     catch(error) {
         console.log("Oops.. Something went wrong", error);
